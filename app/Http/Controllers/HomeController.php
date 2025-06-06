@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Category; // Tetap di-import, tapi tidak dipakai langsung
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // Hanya jalankan query Books yang sangat minimal
-        $latestBooks = Book::take(1)->get(); // Ambil hanya 1 buku, tanpa eager load 'category'
-
-        // Komen sepenuhnya query Categories
-        $categories = collect(); // Kirim koleksi kosong ke view
+        $latestBooks = Book::with('category')
+                          ->latest()
+                          ->take(6)
+                          ->get();
+        
+        $categories = Category::withCount('books')
+                            ->orderBy('books_count', 'desc')
+                            ->take(8)
+                            ->get();
 
         return view('home', compact('latestBooks', 'categories'));
     }
