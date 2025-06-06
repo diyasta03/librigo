@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Book;
-use App\Models\Category;
+use App\Models\Category; // Tetap di-import
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,11 +12,8 @@ class HomeController extends Controller
                           ->latest()
                           ->take(6)
                           ->get();
-        
-        $categories = Category::withCount('books')
-                            ->orderBy('books_count', 'desc')
-                            ->take(8)
-                            ->get();
+
+        $categories = collect(); // Ubah ini menjadi koleksi kosong sementara
 
         return view('home', compact('latestBooks', 'categories'));
     }
