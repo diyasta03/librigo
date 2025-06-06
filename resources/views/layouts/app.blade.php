@@ -7,15 +7,12 @@
 
     <title>{{ config('app.name', 'Perpustakaan Online') }}</title>
 
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <style>
       body {
         margin: 0;
@@ -68,12 +65,8 @@
 </head>
 <body>
     <div class="min-h-screen">
-        <!-- Navigasi (bisa berupa komponen atau include biasa) -->
         @include('layouts.navigation')
-        {{-- Atau jika menggunakan komponen: --}}
-        {{-- <x-nav /> --}}
 
-        <!-- Judul Halaman -->
         @if (isset($header))
         <header>
             <div class="header-container">
@@ -82,7 +75,6 @@
         </header>
         @endif
 
-        <!-- Isi Konten Halaman -->
         <main>
             {{ $slot }}
         </main>
