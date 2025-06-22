@@ -1,8 +1,14 @@
 {{-- resources/views/books/index.blade.php --}}
 
-@extends('layouts.guest')
+@extends('layouts.app') {{-- Menggunakan layout aplikasi utama (bukan guest) --}}
 
 @section('title', 'Buku Saya')
+
+@section('header') {{-- Tambahkan section header jika app.blade.php menggunakannya --}}
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Daftar Buku Saya') }}
+    </h2>
+@endsection
 
 @section('content')
 <div class="py-12">
@@ -37,6 +43,9 @@
                                     Kategori
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status {{-- <--- KOLOM BARU --}}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Aksi
                                 </th>
                             </tr>
@@ -47,7 +56,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-10 w-10">
-<img src="{{ env('SUPABASE_STORAGE_URL') . '/' . $book->cover_path }}" alt="{{ $book->title }}" class="h-10 w-10 rounded-full object-cover">                                            
+                                                <img src="{{ env('SUPABASE_STORAGE_URL') . '/' . $book->cover_path }}" alt="{{ $book->title }}" class="h-10 w-10 rounded-full object-cover">                                            
                                             </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">{{ $book->title }}</div>
@@ -57,6 +66,18 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ $book->category->name }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap"> {{-- <--- KOLOM BARU --}}
+                                        <span class="relative inline-block px-3 py-1 font-semibold leading-tight 
+                                            @if($book->status === 'approved') text-green-900 
+                                            @elseif($book->status === 'pending') text-yellow-900 
+                                            @else text-red-900 @endif">
+                                            <span aria-hidden="true" class="absolute inset-0 opacity-50 rounded-full 
+                                                @if($book->status === 'approved') bg-green-200 
+                                                @elseif($book->status === 'pending') bg-yellow-200 
+                                                @else bg-red-200 @endif"></span>
+                                            <span class="relative">{{ ucfirst($book->status) }}</span>
+                                        </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
                                         <a href="{{ route('books.show', $book) }}" class="text-blue-600 hover:text-blue-900">
@@ -75,7 +96,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500"> {{-- <--- UBAH COLSPAN --}}
                                         Tidak ada buku yang ditemukan.
                                     </td>
                                 </tr>
@@ -88,4 +109,3 @@
     </div>
 </div>
 @endsection
-    

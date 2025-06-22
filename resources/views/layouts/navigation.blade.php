@@ -1,15 +1,12 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
-            <!-- Logo & Navigation -->
             <div class="flex items-center">
-                <!-- Logo -->
                 <a href="{{ route('home') }}">
    <div>LibriGo</div>
 </a>
 
 
-                <!-- Desktop Nav Links -->
                 <div class="hidden sm:flex space-x-8 ml-10">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
@@ -31,7 +28,6 @@
                 </div>
             </div>
 
-            <!-- User Dropdown / Auth Links (desktop) -->
             <div class="hidden sm:flex items-center ml-auto space-x-4">
                 @auth
                     <x-dropdown align="right" width="48">
@@ -59,7 +55,6 @@
                         </x-slot>
                     </x-dropdown>
                 @else
-                    <!-- User belum login: tampilkan Login dan Register -->
                     <a href="{{ route('login') }}"
                         class="text-sm text-gray-700 hover:text-gray-900">{{ __('Login') }}</a>
                     @if (Route::has('register'))
@@ -69,7 +64,6 @@
                 @endauth
             </div>
 
-            <!-- Mobile Hamburger -->
             <div class="sm:hidden flex items-center ml-auto">
                 <button @click="open = !open" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                     <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,7 +79,6 @@
         </div>
     </div>
 
-    <!-- Mobile Menu -->
     <div x-show="open" class="sm:hidden border-t border-gray-200 py-2">
         <div class="space-y-1 px-4">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -105,7 +98,6 @@
         </div>
 
         @auth
-            <!-- User Info & Logout Mobile -->
             <div class="border-t border-gray-200 mt-2 px-4 py-3">
                 <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="text-sm text-gray-500">{{ Auth::user()->email }}</div>
@@ -118,7 +110,6 @@
                 </form>
             </div>
         @else
-            <!-- Mobile Auth Links -->
             <div class="border-t border-gray-200 mt-2 px-4 py-3 flex space-x-4">
                 <a href="{{ route('login') }}"
                     class="text-base font-medium text-gray-700 hover:text-gray-900">{{ __('Login') }}</a>

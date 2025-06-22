@@ -11,7 +11,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            // Alias yang Anda tambahkan sebelumnya
+            'admin' => \App\Http\Middleware\AdminMiddleware::class, 
+
+            // --- UBAH DUA BARIS INI ---
+            'auth' => \Illuminate\Auth\Middleware\Authenticate::class, // Ubah ini
+            'guest' => \Illuminate\Auth\Middleware\RedirectIfAuthenticated::class, // Ubah ini
+
+            // Mungkin ada alias lain dari Kernel yang Anda tambahkan, pastikan semua benar
+            'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+            'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        ]);
+
+        // ... (bagian lain dari withMiddleware) ...
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
